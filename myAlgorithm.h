@@ -7,6 +7,7 @@
 #include "OptUHA.h"
 #include "objective_func.h"
 #include<memory>
+using std::endl;
 using std::cout;
 using std::cin;
 using std::vector;
@@ -36,7 +37,7 @@ protected:
 public:
     myAlgorithm();  // mettre un constructeur avec des paramètres ici
     ~myAlgorithm() = default; //Destructeur par défaut
-    int menu(); //Switch qui demande à l'utilisateur sur quelle fonction il veut appliquer l'algorithme
+    static int menu(); //Switch qui demande à l'utilisateur sur quelle fonction il veut appliquer l'algorithme
     void run(); //Lancer l'algorithme en fonction du choix qu'il a fait dans la fonction "menu"
 };
 

@@ -16,6 +16,7 @@ protected:
     int	pop_size = 30; // taille de la population
     int	dimension = 30; // dimension du problème
     int	total_func_evals = 2500;
+    int max_iteration = 30;
     std::vector<double> d_fitness;//tableau qui stocke les fitness des individus
 
     ///Méthodes et fonctions

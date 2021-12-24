@@ -13,13 +13,11 @@ OptUHA::OptUHA()
 
 double OptUHA::generate_random_double()
 {
-    srand(time(nullptr));
     return (double)rand() / RAND_MAX;
 }
 
 int OptUHA::generate_random_int(int from, int to)
 {
-    srand(time(nullptr));
     return rand()%to + from;
 }
 

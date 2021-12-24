@@ -54,22 +54,54 @@ void myAlgorithm::update_fitness(int idx, double fitness_val)
 
 double myAlgorithm::solve(int func_num)
 {
-    srand((unsigned int) time(nullptr));
-    //Initialiser la population pour n(popsize) agents.[Xi(i=1,2,3,...n)]
     GenerateRandomPop(func_num);
-    /*
-    int iter = 0;
-    while (iter < total_func_evals)
+    evaluate_pop(func_num);
+    double fitness = 0;
+    vector<double> bestResult;
+    bestResult = FindBestSolution(fitness);
+    int iter = 1;
+    while(iter <= max_iteration)
     {
-        //Initialiser A, C, L, and p.
-        double C = 2 * (double) rand();
-        double A = (2 - 2*iter) / total_func_evals;
+        double a  = 2.0 - (double)iter*(2.0 / max_iteration);
+        double a2 = -1.0 + (double)iter*(-1.0 / max_iteration);
+        for(int i = 0; i < pop_size; i++)
+        {
+            double rnd1 = generate_random_double();
+            double rnd2 = generate_random_double();
+            double A  = 2*a*rnd1 - a;
+            double c = 2*rnd2;
+            int b = 1;
+            double l = (a2 -1 ) * rnd1 + 1;
+            double p = generate_random_double();
+            for(int j = 0; j < dimension; j++)
+            {
+                if (p < 0.5)
+                {
+                    if (abs(A) < 1)
+                    {
+                        double D = abs(c*bestResult[j] - population[i][j]) ;
+                        population[i][j] = bestResult[j] - A*D;
+                    }
+                    else
+                    {
+                        int rI = generate_random_int(0, pop_size);
+                        vector<double> X_rand = population[rI];
+                        double D = abs(c*X_rand[j] - population[i][j]);
+                        population[i][j] = X_rand[j] - A*D;
+                    }
+                }
+                else
+                {
+                    double D = abs(bestResult[j] - population[i][j]);
+                    population[i][j] = D* exp(b*l)*cos(l*2*M_PI) + bestResult[j];
+                }
+            }
+        }
+        iter ++;
         evaluate_pop(func_num);
-        double fitness = 0.0;
-        solution xbest = FindBestSolution(func_num, fitness);
+        bestResult = FindBestSolution(fitness);
     }
-     */
-    return 0;
+    return fitness;
 }
 
 void myAlgorithm::creerFonction()
@@ -82,7 +114,6 @@ void myAlgorithm::creerFonction()
 
 void myAlgorithm::GenerateRandomPop(int func_num)
 {
-    srand((unsigned int) time(nullptr));
     for (int i = 0; i < pop_size; i++)
     {
         vector<double> individu;
@@ -139,37 +170,23 @@ int myAlgorithm::menu()
 
 void myAlgorithm::run()
 {
-    vector<double> individu;
-    double fitness;
+    srand(time(nullptr));
     int choix = menu();
     while (choix != 5)
     {
         switch(choix)
         {
-            case 1:
-                afficherFunction(0);
-                individu = create_new_individual(0);
-                fitness = evaluate_individual(0, individu);
+            case 1: cout<<solve(0)<<endl;
                 break;
-            case 2:
-                afficherFunction(1);
-                individu = create_new_individual(1);
-                fitness = evaluate_individual(1, individu);
+            case 2: cout<<solve(1)<<endl;
                 break;
-            case 3:
-                afficherFunction(2);
-                individu = create_new_individual(2);
-                fitness = evaluate_individual(2, individu);
+            case 3: cout<<solve(2)<<endl;
                 break;
-            case 4:
-                afficherFunction(3);
-                individu = create_new_individual(3);
-                fitness = evaluate_individual(3, individu);
+            case 4: cout<<solve(3)<<endl;
                 break;
             default:
                 break;
         }
-        print_solution(individu, fitness);
         choix = menu();
     }
 }
