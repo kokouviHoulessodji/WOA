@@ -33,3 +33,19 @@ void OptUHA::print_solution(const std::vector<double>& solution, double fitness)
     std::cout<<std::endl;
 }
 
+double OptUHA::moyenne() const
+{
+    double somme = 0.0;
+    for(int i=0; i < d_fitness.size(); i++)
+        somme += d_fitness[i];
+    return somme/pop_size;
+}
+
+double OptUHA::ecartType(double moyenne) const
+{
+    double somme = 0.0;
+    for(int i=0; i < d_fitness.size(); i++)
+        somme += pow(d_fitness[i] - moyenne, 2);
+    return sqrt(somme/pop_size);
+}
+

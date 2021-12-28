@@ -16,6 +16,7 @@ protected:
     int	pop_size = 30; // taille de la population
     int	dimension = 30; // dimension du problème
     int max_iteration = 30;
+    double epsilon = pow(10, -16);
     std::vector<double> d_fitness;//tableau qui stocke les fitness des individus
 
     ///Méthodes et fonctions
@@ -27,6 +28,8 @@ protected:
     int generate_random_int(int from, int to);  //Généner un entier aléatoirement
 
     void print_solution(const std::vector<double>& solution, double fitness) const;   //Afficher la solution avec sa fitness
+    double moyenne() const;
+    double ecartType(double moyenne) const;
     virtual void check_bound_pop(int func_num) = 0;    ///?????????
 public:
     OptUHA();   //Constructeur

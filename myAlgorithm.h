@@ -24,7 +24,7 @@ protected:
     virtual void GenerateRandomPop(int func_num) override;  //Générer la population aléatoirement en fonction des bornes correspondantes à la fonction "func_num"
     virtual solution create_new_individual(int func_num) override;  //Créer un nouvel individu
     virtual solution GenerateNewSolution(int func_num, int current_ind_idx) override;   //Généner une nouvelle solution
-    virtual void check_bound_pop(int func_num) override;
+    virtual void check_bound_pop(int func_num) override;    //Vérifier si les valeurs de la population ne dépassent pas les bornes min et max
 
     void UpdatePopulation(int idx, solution new_sol);    //Remplacer un individu de la population par un nouvel
     vector<double> FindBestSolution(double &fitness);   //Trouver la meilleure solution dans la population

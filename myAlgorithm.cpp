@@ -104,6 +104,11 @@ void myAlgorithm::solve(int func_num)
         evaluate_pop(func_num);
         bestSolution = FindBestSolution(fitness);
     }
+    double moy = moyenne();
+    double ecartT = ecartType(moy);
+    cout<<"Sur "<<max_iteration<<" exécutions, la moyenne est : "<<moy<<" et l'écart type est : "<<ecartT<<endl;
+    if(fitness < epsilon)
+        fitness = 0;
     print_solution(bestSolution, fitness);
 }
 
@@ -206,10 +211,12 @@ void myAlgorithm::afficherPopulation()
 {
     for (int i = 0; i < pop_size; i++)
     {
+        cout<<"[ ";
         for (int j = 0; j < dimension; j++)
         {
             cout<<population[i][j]<<" ";
         }
+        cout<<" ]";
         cout<<endl;
     }
 }
