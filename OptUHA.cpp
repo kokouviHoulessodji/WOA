@@ -21,18 +21,15 @@ int OptUHA::generate_random_int(int from, int to)
     return rand()%to + from;
 }
 
-void OptUHA::print_solution(const std::vector<double>& solution, double fitness)
+void OptUHA::print_solution(const std::vector<double>& solution, double fitness)  const
 {
-    std::cout<<"[ ";
+    std::cout<<"Best solution [ ";
     for(int i = 0; i < dimension; i++)
     {
         std::cout<<solution[i]<<" ";
     }
-    std::cout<<"]";
-    std::cout<<" de fitness "<<fitness;
+    std::cout<<"]"<<std::endl;
+    std::cout<<" obj_val : "<<fitness;
     std::cout<<std::endl;
 }
 
-void OptUHA::check_bound_pop(std::vector<solution> &population) {
-
-}

@@ -4,6 +4,7 @@
 
 #include "myAlgorithm.h"
 #include <vector>
+#include <cmath>
 #include "Sphere.h"
 #include "Rastrigin.h"
 #include "Rosenbrock.h"
@@ -35,11 +36,13 @@ vector<double> myAlgorithm::FindBestSolution(double& fitness)
 
 void myAlgorithm::evaluate_pop(int func_num)
 {
-    d_fitness.reserve(pop_size);
-    for(int i=0; i < pop_size; i++)
-    {
-        d_fitness.push_back(d_function[func_num]->fitness(population[i]));
-    }
+    d_fitness.resize(pop_size);
+    for (int i = 0; i < pop_size; i++)
+        update_fitness(i, evaluate_individual(func_num, population[i]));
+    /*
+     * for (int i = 0; i < pop_size; i++)
+     *      d_fitness[i] = d_function[func_num]->fitness(population[i]);
+     */
 }
 
 double myAlgorithm::evaluate_individual(int func_num, const vector<double>& ind)
@@ -52,26 +55,27 @@ void myAlgorithm::update_fitness(int idx, double fitness_val)
     d_fitness[idx] = fitness_val;
 }
 
-double myAlgorithm::solve(int func_num)
+void myAlgorithm::solve(int func_num)
 {
     GenerateRandomPop(func_num);
     evaluate_pop(func_num);
-    double fitness = 0;
-    vector<double> bestResult;
-    bestResult = FindBestSolution(fitness);
-    int iter = 1;
-    while(iter <= max_iteration)
+    double fitness = 0.0;
+    vector<double> bestSolution(dimension);
+    bestSolution = FindBestSolution(fitness);
+    for (int iter = 0; iter < max_iteration; iter++)
     {
-        double a  = 2.0 - (double)iter*(2.0 / max_iteration);
-        double a2 = -1.0 + (double)iter*(-1.0 / max_iteration);
+        evaluate_pop(func_num);
+        double a = 2.0 - (double)iter * (2.0 / max_iteration);
+        double a2 = -1.0 + (double)iter * (-1.0 / max_iteration);
+        //Update position
         for(int i = 0; i < pop_size; i++)
         {
             double rnd1 = generate_random_double();
             double rnd2 = generate_random_double();
-            double A  = 2*a*rnd1 - a;
-            double c = 2*rnd2;
-            int b = 1;
-            double l = (a2 -1 ) * rnd1 + 1;
+            double A  = 2.0 * a * rnd1 - a;
+            double c = 2.0 * rnd2;
+            double b = 1.0;
+            double l = (a2 - 1.0) * generate_random_double() + 1.0;
             double p = generate_random_double();
             for(int j = 0; j < dimension; j++)
             {
@@ -79,29 +83,28 @@ double myAlgorithm::solve(int func_num)
                 {
                     if (abs(A) < 1)
                     {
-                        double D = abs(c*bestResult[j] - population[i][j]) ;
-                        population[i][j] = bestResult[j] - A*D;
+                        double D = abs(c*bestSolution[j] - population[i][j]) ;
+                        population[i][j] = bestSolution[j] - A*D;
                     }
                     else
                     {
-                        int rI = generate_random_int(0, pop_size);
-                        vector<double> X_rand = population[rI];
-                        double D = abs(c*X_rand[j] - population[i][j]);
-                        population[i][j] = X_rand[j] - A*D;
+                        int rI = generate_random_int(0, pop_size - 1);
+                        double D = abs(c*population[rI][j] - population[i][j]);
+                        population[i][j] = population[rI][j] - A*D;
                     }
                 }
                 else
                 {
-                    double D = abs(bestResult[j] - population[i][j]);
-                    population[i][j] = D* exp(b*l)*cos(l*2*M_PI) + bestResult[j];
+                    double D = abs(bestSolution[j] - population[i][j]);
+                    population[i][j] = D * exp(b * l) * cos(l * 2 * M_PI) + bestSolution[j];
                 }
             }
         }
-        iter ++;
+        check_bound_pop(func_num);
         evaluate_pop(func_num);
-        bestResult = FindBestSolution(fitness);
+        bestSolution = FindBestSolution(fitness);
     }
-    return fitness;
+    print_solution(bestSolution, fitness);
 }
 
 void myAlgorithm::creerFonction()
@@ -114,15 +117,14 @@ void myAlgorithm::creerFonction()
 
 void myAlgorithm::GenerateRandomPop(int func_num)
 {
+    population.resize(pop_size);
     for (int i = 0; i < pop_size; i++)
     {
         vector<double> individu;
         individu.reserve(dimension);
         for (int j = 0; j < dimension; j++)
-        {
             individu.push_back((((double) rand() / (RAND_MAX)) * (d_function[func_num]->bound_max() - d_function[func_num]->bound_min())) + d_function[func_num]->bound_min());
-        }
-        population.push_back(individu);
+        population[i] = (individu);
     }
 }
 
@@ -137,17 +139,12 @@ solution myAlgorithm::create_new_individual(int func_num)
     return individu;
 }
 
-void myAlgorithm::afficherFunction(int func_num)
-{
-    std::cout<<"x E [ "<<d_function[func_num]->bound_min()<<" ; "<<d_function[func_num]->bound_max()<<" ]"<<std::endl;
-    //std::cout<<"f_bias : "<<d_function[func_num]->f_bias()<<std::endl;
-    //std::cout<<"Dimension : "<<d_function[func_num]->getDimension()<<std::endl;
-}
 
 solution myAlgorithm::GenerateNewSolution(int func_num, int current_ind_idx)
 {
     solution sol = create_new_individual(func_num);
-    population[current_ind_idx] = sol;
+    //population[current_ind_idx] = sol;
+    UpdatePopulation(current_ind_idx, sol);
     return sol;
 }
 
@@ -176,13 +173,13 @@ void myAlgorithm::run()
     {
         switch(choix)
         {
-            case 1: cout<<solve(0)<<endl;
+            case 1: solve(0); cout<<endl;
                 break;
-            case 2: cout<<solve(1)<<endl;
+            case 2: solve(1); cout<<endl;
                 break;
-            case 3: cout<<solve(2)<<endl;
+            case 3: solve(2); cout<<endl;
                 break;
-            case 4: cout<<solve(3)<<endl;
+            case 4: solve(3); cout<<endl;
                 break;
             default:
                 break;
@@ -191,3 +188,65 @@ void myAlgorithm::run()
     }
 }
 
+void myAlgorithm::check_bound_pop(int func_num)
+{
+    for(int i = 0; i < pop_size; i++)
+    {
+        for(int j = 0; j < dimension; j++)
+        {
+            if(population[i][j] < d_function[func_num]->bound_min())
+                population[i][j] = d_function[func_num]->bound_min();
+            else if(population[i][j] > d_function[func_num]->bound_max())
+                population[i][j] = d_function[func_num]->bound_max();
+        }
+    }
+}
+/*
+void myAlgorithm::afficherPopulation()
+{
+    for (int i = 0; i < pop_size; i++)
+    {
+        for (int j = 0; j < dimension; j++)
+        {
+            cout<<population[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+}
+
+void myAlgorithm::updatePosition(double a, double a2, vector<double> &bestSolution)
+{
+    for(int i = 0; i < pop_size; i++)
+    {
+        double rnd1 = generate_random_double();
+        double rnd2 = generate_random_double();
+        double A  = 2.0 * a * rnd1 - a;
+        double c = 2.0 * rnd2;
+        double b = 1.0;
+        double l = (a2 - 1.0) * generate_random_double() + 1.0;
+        double p = generate_random_double();
+        for(int j = 0; j < dimension; j++)
+        {
+            if (p < 0.5)
+            {
+                if (abs(A) < 1)
+                {
+                    double D = abs(c*(bestSolution[j]) - population[i][j]) ;
+                    population[i][j] = bestSolution[j] - A*D;
+                }
+                else
+                {
+                    int rI = generate_random_int(0, pop_size - 1);
+                    double D = abs(c*population[rI][j] - population[i][j]);
+                    population[i][j] = population[rI][j] - A*D;
+                }
+            }
+            else
+            {
+                double D = abs(bestSolution[j] - population[i][j]);
+                population[i][j] = D * exp(b * l) * cos(l * 2 * M_PI) + bestSolution[j];
+            }
+        }
+    }
+}
+*/

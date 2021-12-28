@@ -11,16 +11,15 @@ Griewank::Griewank(int borne_min, int borne_max, int f_bias) :
 }
 double Griewank::fitness(const std::vector<double> &x)
 {
-    double somme = 0;
-    double prod = 1;
+    double somme = 0.0;
+    double prod = 1.0;
 
-    for (int i=1; i<= dimension; i++)
+    for (int i = 0; i < dimension; i++)
     {
-        somme += pow(x[i], 2) / 4000;
-        prod *= cos(x[i] / sqrt(i)) + 1;
-
+        somme += pow(x[i], 2) / 4000.0;
+        prod *= cos(x[i] / sqrt(i+1)) + 1.0;
     }
-    return somme - prod + d_f_bias;
+    return somme - prod + f_bias();
 }
 int Griewank::bound_min() const {
     return d_borne_min;

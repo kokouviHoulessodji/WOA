@@ -7,7 +7,7 @@
 #include <vector>
 #include <random>
 #include "iostream"
-#include<ctime>
+#include <ctime>
 typedef std::vector<double> solution;
 
 class OptUHA {
@@ -15,7 +15,6 @@ protected:
     ///Variables
     int	pop_size = 30; // taille de la population
     int	dimension = 30; // dimension du problème
-    int	total_func_evals = 2500;
     int max_iteration = 30;
     std::vector<double> d_fitness;//tableau qui stocke les fitness des individus
 
@@ -27,8 +26,8 @@ protected:
     double generate_random_double();    //Généner un réel aléatoirement
     int generate_random_int(int from, int to);  //Généner un entier aléatoirement
 
-    void print_solution(const std::vector<double>& solution, double fitness);   //Afficher la solution avec sa fitness
-    void check_bound_pop(std::vector<solution>& population);    ///?????????
+    void print_solution(const std::vector<double>& solution, double fitness) const;   //Afficher la solution avec sa fitness
+    virtual void check_bound_pop(int func_num) = 0;    ///?????????
 public:
     OptUHA();   //Constructeur
     ~OptUHA() = default;    //Destructeur par défaut

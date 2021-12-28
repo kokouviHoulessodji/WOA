@@ -24,6 +24,7 @@ protected:
     virtual void GenerateRandomPop(int func_num) override;  //Générer la population aléatoirement en fonction des bornes correspondantes à la fonction "func_num"
     virtual solution create_new_individual(int func_num) override;  //Créer un nouvel individu
     virtual solution GenerateNewSolution(int func_num, int current_ind_idx) override;   //Généner une nouvelle solution
+    virtual void check_bound_pop(int func_num) override;
 
     void UpdatePopulation(int idx, solution new_sol);    //Remplacer un individu de la population par un nouvel
     vector<double> FindBestSolution(double &fitness);   //Trouver la meilleure solution dans la population
@@ -32,8 +33,9 @@ protected:
     void update_fitness(int idx, double fitness_val);   //Mettre à jour la fitness de l'individu "idx" avec la valeur "fitness_val"
 
     void creerFonction();   //Remplir le tableau de fonction par les fonctions du benchmark
-    void afficherFunction(int func_num);//Pour tester
-    double solve(int func_num);
+    void solve(int func_num);
+    void afficherPopulation();
+    //void updatePosition(double a, double a2, vector<double> &bestSolution);
 public:
     myAlgorithm();  // mettre un constructeur avec des paramètres ici
     ~myAlgorithm() = default; //Destructeur par défaut

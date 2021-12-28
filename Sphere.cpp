@@ -11,10 +11,10 @@ Sphere::Sphere(int borne_min, int borne_max, int f_bias):
 
 double Sphere::fitness(const std::vector<double> &x)
 {
-    double somme= 0;
-    for (int i=1; i<= dimension; i++)
+    double somme = 0;
+    for (int i=0; i< dimension; i++)
     {
-        somme+= pow(x[i],2);
+        somme += pow(x[i],2);
     }
     return somme + d_f_bias;
 }

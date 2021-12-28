@@ -11,11 +11,11 @@ Rosenbrock::Rosenbrock(int borne_min, int borne_max, int f_bias) :
 }
 double Rosenbrock::fitness(const std::vector<double> &x)
 {
-    int somme= 0;
+    double somme = 0.0;
 
-    for (int i=1; i<= dimension-1; i++)
+    for (int i=0; i< dimension-1; i++)
     {
-        somme+=(100*pow((pow(x[i],2)-x[i+1]),2)+pow((x[i]-1),2));
+        somme += (100.0 * pow((pow(x[i],2) - x[i+1]),2) + pow((x[i] - 1),2));
     }
     return somme + d_f_bias;
 }
