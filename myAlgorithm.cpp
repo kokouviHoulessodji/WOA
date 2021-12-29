@@ -186,7 +186,7 @@ void myAlgorithm::run()
                 break;
             case 4: solve(3); cout<<endl;
                 break;
-            default:
+            default: std::cerr<<" Cette fonction n'existe pas, veuillez rentrer un identifiant correct merci"<<endl;
                 break;
         }
         choix = menu();
