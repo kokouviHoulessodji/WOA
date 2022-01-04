@@ -15,7 +15,7 @@ protected:
     ///Variables
     int	pop_size = 30; // taille de la population
     int	dimension = 30; // dimension du problème
-    int max_iteration = 30;
+    int max_iteration = 30; //Maximum d'itération
     double epsilon = pow(10, -16);
     std::vector<double> d_fitness;//tableau qui stocke les fitness des individus
 
@@ -30,7 +30,7 @@ protected:
     void print_solution(const std::vector<double>& solution, double fitness) const;   //Afficher la solution avec sa fitness
     double moyenne() const;
     double ecartType(double moyenne) const;
-    virtual void check_bound_pop(int func_num) = 0;    ///?????????
+    virtual void check_bound_pop(int func_num) = 0;    //Ramène les valeurs des individus à borne min si inférieure où a borne max si supérieure
 public:
     OptUHA();   //Constructeur
     ~OptUHA() = default;    //Destructeur par défaut

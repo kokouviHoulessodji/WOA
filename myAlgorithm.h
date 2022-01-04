@@ -33,8 +33,8 @@ protected:
     void update_fitness(int idx, double fitness_val);   //Mettre à jour la fitness de l'individu "idx" avec la valeur "fitness_val"
 
     void creerFonction();   //Remplir le tableau de fonction par les fonctions du benchmark
-    void solve(int func_num);
-    void afficherPopulation();
+    void solve(int func_num);   //Algorithme principal
+    //void afficherPopulation();
     //void updatePosition(double a, double a2, vector<double> &bestSolution);
 public:
     myAlgorithm();  // mettre un constructeur avec des paramètres ici

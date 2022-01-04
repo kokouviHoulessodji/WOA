@@ -64,7 +64,6 @@ void myAlgorithm::solve(int func_num)
     bestSolution = FindBestSolution(fitness);
     for (int iter = 0; iter < max_iteration; iter++)
     {
-        evaluate_pop(func_num);
         double a = 2.0 - (double)iter * (2.0 / max_iteration);
         double a2 = -1.0 + (double)iter * (-1.0 / max_iteration);
         //Update position
@@ -83,11 +82,13 @@ void myAlgorithm::solve(int func_num)
                 {
                     if (abs(A) < 1)
                     {
+                        //Mutation
                         double D = abs(c*bestSolution[j] - population[i][j]) ;
                         population[i][j] = bestSolution[j] - A*D;
                     }
                     else
                     {
+                        //Croisement
                         int rI = generate_random_int(0, pop_size - 1);
                         double D = abs(c*population[rI][j] - population[i][j]);
                         population[i][j] = population[rI][j] - A*D;
