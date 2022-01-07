@@ -14,9 +14,9 @@ public:
     int bound_max() const override;
     int f_bias() const override;
 private:
-    int d_borne_min;
-    int d_borne_max;
-    int d_f_bias;
+    int d_borne_min = -100;
+    int d_borne_max = 100;
+    int d_f_bias = -450;
 };
 
 

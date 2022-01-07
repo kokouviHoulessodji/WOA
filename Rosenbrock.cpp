@@ -13,7 +13,7 @@ double Rosenbrock::fitness(const std::vector<double> &x)
 {
     double somme = 0.0;
 
-    for (int i=0; i< dimension-1; i++)
+    for (int i=0; i< x.size()-1; i++)
     {
         somme += (100.0 * pow((pow(x[i],2) - x[i+1]),2) + pow((x[i] - 1),2));
     }

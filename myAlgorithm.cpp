@@ -64,17 +64,17 @@ void myAlgorithm::solve(int func_num)
     bestSolution = FindBestSolution(fitness);
     for (int iter = 0; iter < max_iteration; iter++)
     {
-        double a = 2.0 - (double)iter * (2.0 / max_iteration);
-        double a2 = -1.0 + (double)iter * (-1.0 / max_iteration);
         //Update position
         for(int i = 0; i < pop_size; i++)
         {
+            double a = 2.0 - (double)iter * (2.0 / max_iteration);
+            //double a2 = -1.0 + (double)iter * (-1.0 / max_iteration);
             double rnd1 = generate_random_double();
             double rnd2 = generate_random_double();
             double A  = 2.0 * a * rnd1 - a;
             double c = 2.0 * rnd2;
             double b = 1.0;
-            double l = (a2 - 1.0) * generate_random_double() + 1.0;
+            double l = (a - 1.0) * generate_random_double() + 1.0;
             double p = generate_random_double();
             for(int j = 0; j < dimension; j++)
             {
@@ -82,13 +82,11 @@ void myAlgorithm::solve(int func_num)
                 {
                     if (abs(A) < 1)
                     {
-                        //Mutation
                         double D = abs(c*bestSolution[j] - population[i][j]) ;
                         population[i][j] = bestSolution[j] - A*D;
                     }
                     else
                     {
-                        //Croisement
                         int rI = generate_random_int(0, pop_size - 1);
                         double D = abs(c*population[rI][j] - population[i][j]);
                         population[i][j] = population[rI][j] - A*D;
@@ -108,6 +106,7 @@ void myAlgorithm::solve(int func_num)
     double moy = moyenne();
     double ecartT = ecartType(moy);
     cout<<"Sur "<<max_iteration<<" exécutions, la moyenne est : "<<moy<<" et l'écart type est : "<<ecartT<<endl;
+    std::cout<<"Obj val : "<<fitness<<std::endl;
     if(fitness < epsilon)
         fitness = 0;
     print_solution(bestSolution, fitness);

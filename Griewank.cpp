@@ -14,7 +14,7 @@ double Griewank::fitness(const std::vector<double> &x)
     double somme = 0.0;
     double prod = 1.0;
 
-    for (int i = 0; i < dimension; i++)
+    for (int i = 0; i < x.size(); i++)
     {
         somme += pow(x[i], 2) / 4000.0;
         prod *= cos(x[i] / sqrt(i+1)) + 1.0;

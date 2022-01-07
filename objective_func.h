@@ -15,8 +15,6 @@ public:
     virtual int bound_min() const = 0;  //Renvoyer la borne min
     virtual int bound_max() const = 0;  //Renvoyer la borne max
     virtual int f_bias() const = 0; //Renvoyer le f_bias
-protected:
-    int dimension = 30;
 };
 
 

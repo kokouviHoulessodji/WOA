@@ -13,7 +13,7 @@ double Rastrigin::fitness(const std::vector<double> &x)
 {
     double somme = 0;
     double p = M_PI;
-    for (int i=0; i< dimension; i++)
+    for (int i=0; i< x.size(); i++)
     {
         somme += (pow(x[i],2) - 10.0*cos(2*p*x[i]) + 10);
     }
