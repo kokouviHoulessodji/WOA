@@ -29,6 +29,8 @@ void OptUHA::print_solution(const std::vector<double>& solution, double fitness)
         std::cout<<solution[i]<<" ";
     }
     std::cout<<"]"<<std::endl;
+    if(fitness == 0)
+        std::cout<<"La valeur objectif est inférieure à epsilon = "<<epsilon<<" donc :";
     std::cout<<" obj_val : "<<fitness;
     std::cout<<std::endl;
 }

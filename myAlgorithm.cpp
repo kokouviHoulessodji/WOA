@@ -108,7 +108,9 @@ void myAlgorithm::solve(int func_num)
     cout<<"Sur "<<max_iteration<<" exécutions, la moyenne est : "<<moy<<" et l'écart type est : "<<ecartT<<endl;
     std::cout<<"Obj val : "<<fitness<<std::endl;
     if(fitness < epsilon)
+    {
         fitness = 0;
+    }
     print_solution(bestSolution, fitness);
 }
 
