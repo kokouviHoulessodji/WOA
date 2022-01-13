@@ -58,6 +58,9 @@ void myAlgorithm::update_fitness(int idx, double fitness_val)
 void myAlgorithm::solve(int func_num)
 {
     GenerateRandomPop(func_num);
+    std::cout<<"------------Population initiale----------"<<std::endl;
+    afficherPopulation();
+    std::cout<<"------------------------------------------"<<std::endl;
     evaluate_pop(func_num);
     double fitness = 0.0;
     vector<double> bestSolution(dimension);
@@ -100,26 +103,23 @@ void myAlgorithm::solve(int func_num)
             }
         }
         check_bound_pop(func_num);
+        std::cout<<"------------Iteration "<<iter<<"----------"<<std::endl;
+        afficherPopulation();
+        std::cout<<"------------------------------------------"<<std::endl;
         evaluate_pop(func_num);
         bestSolution = FindBestSolution(fitness);
     }
-    double moy = moyenne();
-    double ecartT = ecartType(moy);
-    cout<<"Sur "<<max_iteration<<" exécutions, la moyenne est : "<<moy<<" et l'écart type est : "<<ecartT<<endl;
-    std::cout<<"Obj val : "<<fitness<<std::endl;
-    if(fitness < epsilon)
-    {
-        fitness = 0;
-    }
+    double ecartT = ecartType(moyenne());
+    cout<<"Sur "<<max_iteration<<" exécutions,"<<std::endl<<"La moyenne est : "<<moyenne()<<std::endl<<"L'écart type est : "<<ecartT<<endl;
     print_solution(bestSolution, fitness);
 }
 
 void myAlgorithm::creerFonction()
 {
-    d_function.push_back(make_unique<Sphere>());
-    d_function.push_back(make_unique<Rastrigin>());
-    d_function.push_back(make_unique<Rosenbrock>());
-    d_function.push_back(make_unique<Griewank>());
+    d_function.push_back(make_unique<Sphere>(-100, 100, -450));
+    d_function.push_back(make_unique<Rastrigin>(-5, 5, -330));
+    d_function.push_back(make_unique<Rosenbrock>(-100, 100, 390));
+    d_function.push_back(make_unique<Griewank>(-600, 600, -180));
 }
 
 void myAlgorithm::GenerateRandomPop(int func_num)
@@ -208,7 +208,7 @@ void myAlgorithm::check_bound_pop(int func_num)
         }
     }
 }
-/*
+
 void myAlgorithm::afficherPopulation()
 {
     for (int i = 0; i < pop_size; i++)
@@ -216,13 +216,13 @@ void myAlgorithm::afficherPopulation()
         cout<<"[ ";
         for (int j = 0; j < dimension; j++)
         {
-            cout<<population[i][j]<<" ";
+            cout<<population[i][j]<<"; ";
         }
         cout<<" ]";
         cout<<endl;
     }
 }
-
+/*
 void myAlgorithm::updatePosition(double a, double a2, vector<double> &bestSolution)
 {
     for(int i = 0; i < pop_size; i++)

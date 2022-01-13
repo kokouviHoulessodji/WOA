@@ -8,15 +8,8 @@
 
 class Griewank : public objective_func{
 public:
-    explicit Griewank(int borne_min = -600, int borne_max = 600, int f_bias = -180);
+    Griewank(int borne_min, int borne_max, int f_bias);
     double fitness(const std::vector<double>& x) override;
-    int bound_min() const override;
-    int bound_max() const override;
-    int f_bias() const override;
-private:
-    int d_borne_min;
-    int d_borne_max;
-    int d_f_bias;
 };
 
 

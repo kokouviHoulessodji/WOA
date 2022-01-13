@@ -34,7 +34,7 @@ protected:
 
     void creerFonction();   //Remplir le tableau de fonction par les fonctions du benchmark
     void solve(int func_num);   //Algorithme principal
-    //void afficherPopulation();
+    void afficherPopulation();
     //void updatePosition(double a, double a2, vector<double> &bestSolution);
 public:
     myAlgorithm();  // mettre un constructeur avec des paramètres ici

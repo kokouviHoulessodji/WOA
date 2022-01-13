@@ -10,11 +10,16 @@
 
 class objective_func {
 public:
+    objective_func(int borne_min, int borne_max, int f_bias);
     virtual double fitness(const std::vector<double>& x) = 0;   //Evaluer la fonction en fonction de l'individu passé en paramètre
     virtual ~objective_func() = default;    //Destructeur virtuel
-    virtual int bound_min() const = 0;  //Renvoyer la borne min
-    virtual int bound_max() const = 0;  //Renvoyer la borne max
-    virtual int f_bias() const = 0; //Renvoyer le f_bias
+    int bound_min() const;  //Renvoyer la borne min
+    int bound_max() const;  //Renvoyer la borne max
+    int f_bias() const; //Renvoyer le f_bias
+protected:
+    int d_borne_min;
+    int d_borne_max;
+    int d_f_bias;
 };
 
 

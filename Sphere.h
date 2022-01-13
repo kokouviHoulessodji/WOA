@@ -8,15 +8,8 @@
 
 class Sphere : public objective_func {
 public:
-    explicit Sphere(int borne_min = -100, int borne_max = 100, int f_bias = -450);
+    Sphere(int borne_min, int borne_max, int f_bias);
     double fitness(const std::vector<double>& x) override;
-    int bound_min() const override;
-    int bound_max() const override;
-    int f_bias() const override;
-private:
-    int d_borne_min = -100;
-    int d_borne_max = 100;
-    int d_f_bias = -450;
 };
 
 

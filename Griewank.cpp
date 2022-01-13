@@ -4,8 +4,7 @@
 
 #include "Griewank.h"
 
-Griewank::Griewank(int borne_min, int borne_max, int f_bias) :
-        d_borne_min{borne_min}, d_borne_max{borne_max}, d_f_bias{f_bias}
+Griewank::Griewank(int borne_min, int borne_max, int f_bias) : objective_func{borne_min, borne_max, f_bias}
 {
 
 }
@@ -20,14 +19,4 @@ double Griewank::fitness(const std::vector<double> &x)
         prod *= cos(x[i] / sqrt(i+1)) + 1.0;
     }
     return somme - prod + f_bias();
-}
-int Griewank::bound_min() const {
-    return d_borne_min;
-}
-int Griewank::bound_max() const {
-    return d_borne_max;
-}
-
-int Griewank::f_bias() const {
-    return d_f_bias;
 }
