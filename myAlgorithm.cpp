@@ -59,13 +59,16 @@ void myAlgorithm::solve(int func_num)
 {
     GenerateRandomPop(func_num);
     std::cout<<"------------Population initiale----------"<<std::endl;
-    afficherPopulation();
+    afficherPopulation(func_num);
     std::cout<<"------------------------------------------"<<std::endl;
     evaluate_pop(func_num);
+    d_bestIndividu.reserve(pop_size);
+    int nb = 1;
     double fitness = 0.0;
     vector<double> bestSolution(dimension);
     bestSolution = FindBestSolution(fitness);
-    for (int iter = 0; iter < max_iteration; iter++)
+    d_bestIndividu.push_back(fitness);
+    for (int iter = 1; iter < max_iteration; iter++)
     {
         //Update position
         for(int i = 0; i < pop_size; i++)
@@ -104,14 +107,17 @@ void myAlgorithm::solve(int func_num)
         }
         check_bound_pop(func_num);
         std::cout<<"------------Iteration "<<iter<<"----------"<<std::endl;
-        afficherPopulation();
+        afficherPopulation(func_num);
         std::cout<<"------------------------------------------"<<std::endl;
         evaluate_pop(func_num);
+        nb++;
         bestSolution = FindBestSolution(fitness);
+        d_bestIndividu.push_back(fitness);
     }
     double ecartT = ecartType(moyenne());
     cout<<"Sur "<<max_iteration<<" exécutions,"<<std::endl<<"La moyenne est : "<<moyenne()<<std::endl<<"L'écart type est : "<<ecartT<<endl;
     print_solution(bestSolution, fitness);
+    std::cout<<"Nombre d'appel de la fonction objectif : "<<nb<<std::endl;
 }
 
 void myAlgorithm::creerFonction()
@@ -209,7 +215,7 @@ void myAlgorithm::check_bound_pop(int func_num)
     }
 }
 
-void myAlgorithm::afficherPopulation()
+void myAlgorithm::afficherPopulation(int func_num)
 {
     for (int i = 0; i < pop_size; i++)
     {
@@ -218,7 +224,7 @@ void myAlgorithm::afficherPopulation()
         {
             cout<<population[i][j]<<"; ";
         }
-        cout<<" ]";
+        cout<<" ] de fitness : "<<evaluate_individual(func_num, population[i]);
         cout<<endl;
     }
 }

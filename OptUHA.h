@@ -18,6 +18,7 @@ protected:
     int max_iteration = 30; //Maximum d'itération
     double epsilon = pow(10, -16);
     std::vector<double> d_fitness;//tableau qui stocke les fitness des individus
+    std::vector<double> d_bestIndividu;
 
     ///Méthodes et fonctions
     virtual void GenerateRandomPop(int func_num) = 0;   //On n'a pas de données précises ici pour pouvoir générer la population.
